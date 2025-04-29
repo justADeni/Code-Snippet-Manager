@@ -85,11 +85,6 @@ public class ControlPanel extends JPanel {
 
                 for (Snippet snippet : selectedGroup.snippets) {
 
-                    if (searchString.equals("kaala")) {
-                        JOptionPane.showMessageDialog(null, "Roshan Kaala");
-                        return;
-                    }
-
                     if (searchString.toLowerCase().equals(snippet.snippetName.toLowerCase())) {
                         System.out.println(snippet.snippetName + " found!");
 

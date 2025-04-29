@@ -86,22 +86,9 @@ public class Snippet extends JPanel {
         JMenuItem edit = new JMenuItem("Edit");
         JMenuItem delete = new JMenuItem("Delete");
 
-        edit.addActionListener(e -> {
-            new EditableSnippet(this);
-        });
+        edit.addActionListener(e -> new EditableSnippet(this));
 
-        delete.addActionListener(e -> {
-
-            int confirmed = JOptionPane.showConfirmDialog(null,
-                    "Deleted snippets cannot be restored",
-                    "Delete snippet?", JOptionPane.YES_NO_OPTION);
-
-            if (confirmed == JOptionPane.YES_OPTION) {
-                group.snippets.remove(this);
-                group.remove(this);
-            }
-        });
-
+        delete.addActionListener(e -> deleteSnippet());
 
         popupMenu.add(edit);
         popupMenu.add(delete);
@@ -147,6 +134,20 @@ public class Snippet extends JPanel {
         button.setBackground(color);
 
         return button;
+    }
+
+    private void deleteSnippet() {
+        int confirmed = JOptionPane.showConfirmDialog(null,
+                "Deleted snippets cannot be restored",
+                "Delete snippet?", JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+            group.snippets.remove(this);
+            group.remove(this);
+            group.revalidate();
+            group.repaint();
+        }
+
     }
 
     private JPanel getSnippetPanel() {
