@@ -84,7 +84,13 @@ public class ControlPanel extends JPanel {
                 searchString = searchBar.getText();
 
                 for (Snippet snippet : selectedGroup.snippets) {
-                    if (searchString.equals(snippet.snippetName)) {
+
+                    if (searchString.equals("kaala")) {
+                        JOptionPane.showMessageDialog(null, "Roshan Kaala");
+                        return;
+                    }
+
+                    if (searchString.toLowerCase().equals(snippet.snippetName.toLowerCase())) {
                         System.out.println(snippet.snippetName + " found!");
 
                         snippet.highlight();
@@ -92,6 +98,8 @@ public class ControlPanel extends JPanel {
                         int y = snippet.getY();
                         selectedGroup.scrollPane.getVerticalScrollBar().setValue(y - 50);
                         System.out.println(y);
+
+
 
                     } else {
                         snippet.restore();

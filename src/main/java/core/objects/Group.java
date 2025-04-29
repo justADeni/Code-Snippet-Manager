@@ -36,6 +36,7 @@ public class Group extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getVerticalScrollBar().setValue(0);
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         searchBar = new JTextField();
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));

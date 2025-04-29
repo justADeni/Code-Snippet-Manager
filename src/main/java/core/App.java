@@ -1,7 +1,9 @@
 package core;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTAtomOneDarkIJTheme;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
@@ -53,7 +55,7 @@ public class App extends JFrame {
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatMacDarkLaf());
+        UIManager.setLookAndFeel(new FlatOneDarkIJTheme());
 
         SwingUtilities.invokeLater(() -> {
             App app = new App();
