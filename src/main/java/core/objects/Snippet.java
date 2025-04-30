@@ -10,17 +10,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.util.TimerTask;
 
 public class Snippet extends JPanel {
 
     public Group group;
 
     private JPanel controlPanel;
-    private JLabel nameLabel;
+    private EditableLabel nameLabel;
     private JButton copyButton;
     private JButton deleteButton;
     private JToggleButton editToggle;
@@ -45,31 +42,9 @@ public class Snippet extends JPanel {
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
         controlPanel.setPreferredSize(new Dimension(this.getPreferredSize().width, 70));
 
-        nameLabel = new JLabel();
-        nameLabel.setText(snippetName);
+        nameLabel = new EditableLabel(snippetName, this);
         nameLabel.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 20));
-        nameLabel.setPreferredSize(new Dimension(360, 90));
-        nameLabel.addMouseListener(new MouseAdapter() {
-            boolean isAlreadyOneClick;
-            final java.util.Timer timer = new java.util.Timer("doubleClickTimer", false);
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (isAlreadyOneClick) {
-
-                    //TODO: edit snippet name
-
-                    isAlreadyOneClick = false;
-                } else {
-                    isAlreadyOneClick = true;
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            isAlreadyOneClick = false;
-                        }
-                    }, 500);
-                }
-            }
-        });
+        nameLabel.setPreferredSize(new Dimension(160, 90));
 
         copyButton = new JButton("Copy");
         copyButton.setPreferredSize(buttonDimension);
@@ -107,7 +82,7 @@ public class Snippet extends JPanel {
         snippetTextArea = new RSyntaxTextArea(snippetCode);
         snippetTextArea.setEditable(false);
         snippetTextArea.setAutoIndentEnabled(true);
-        snippetTextArea.setSyntaxEditingStyle(detector.get(snippetName));
+        detectCodeType();
         snippetTextArea.setPreferredSize(rolledSize);
         snippetTextArea.setBackground(new Color(23, 23, 23, 226));
         snippetTextArea.setCurrentLineHighlightColor(new Color(28, 28, 28, 226));
@@ -201,12 +176,16 @@ public class Snippet extends JPanel {
         if (editMode()) {
             FontMetrics fm = snippetTextArea.getFontMetrics(snippetTextArea.getFont());
             Rectangle2D bounds = fm.getStringBounds(longestLine(), getGraphics());
-            int width = Math.max((int) bounds.getWidth() + 80, rolledSize.width);
+            int width = Math.max((int) bounds.getWidth() + 80 + lineCounter.getWidth(), rolledSize.width);
             int height = Math.max(snippetTextArea.getLineHeight() * snippetTextArea.getLineCount() + 100, rolledSize.height);
             setPreferredSize(new Dimension(width,height));
         } else {
             setPreferredSize(rolledSize);
         }
+    }
+
+    public void detectCodeType() {
+        snippetTextArea.setSyntaxEditingStyle(detector.get(getName()));
     }
 
 }
