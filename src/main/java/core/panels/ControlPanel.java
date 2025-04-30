@@ -32,7 +32,7 @@ public class ControlPanel extends JPanel {
         newGroup.addActionListener(e -> {
             String groupName = JOptionPane.showInputDialog("Enter group name", "Group");
 
-            if (groupName.isBlank()) return;
+            if (groupName == null || groupName.isBlank()) return;
 
             for (Group group : app.tabbedPanel.groups) {
                 if (groupName.equals(group.groupName)) {
@@ -55,18 +55,18 @@ public class ControlPanel extends JPanel {
 
             String name = JOptionPane.showInputDialog("Snippet Name");
 
-            if (name.isBlank()) return;
+            if (name == null || name.isBlank()) return;
 
 
             for (Snippet snippet : selectedGroup.snippets) {
-                if (name.equals(snippet.snippetName)) {
+                if (name.equals(snippet.getName())) {
                     JOptionPane.showMessageDialog(null, "Snippet name is already taken",
                             "Name in use", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
 
-            selectedGroup.addSnippet(name);
+            selectedGroup.addSnippet(name, "");
         });
 
         searchBar = new JTextField();
@@ -85,8 +85,8 @@ public class ControlPanel extends JPanel {
 
                 for (Snippet snippet : selectedGroup.snippets) {
 
-                    if (searchString.toLowerCase().equals(snippet.snippetName.toLowerCase())) {
-                        System.out.println(snippet.snippetName + " found!");
+                    if (searchString.equalsIgnoreCase(snippet.getName())) {
+                        System.out.println(snippet.getName() + " found!");
 
                         snippet.highlight();
 
@@ -94,14 +94,10 @@ public class ControlPanel extends JPanel {
                         selectedGroup.scrollPane.getVerticalScrollBar().setValue(y - 50);
                         System.out.println(y);
 
-
-
                     } else {
                         snippet.restore();
                     }
                 }
-
-
 
             }
         });
@@ -111,7 +107,6 @@ public class ControlPanel extends JPanel {
         this.add(searchBar);
         this.add(newGroup);
         this.add(addSnippet);
-
 
         app.add(this, BorderLayout.NORTH);
     }

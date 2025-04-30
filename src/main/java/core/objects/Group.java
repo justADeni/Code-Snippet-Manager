@@ -68,8 +68,8 @@ public class Group extends JPanel {
         popupMenu.add(deleteGroupItem);
     }
 
-    public void addSnippet(String name) {
-        Snippet snippet = new Snippet(this, name);
+    public void addSnippet(String name, String code) {
+        Snippet snippet = new Snippet(this, name, code);
 
         snippets.add(snippet);
         this.add(snippet);

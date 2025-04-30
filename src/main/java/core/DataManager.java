@@ -40,8 +40,8 @@ public class DataManager {
             List<Map<String, String>> snippetsData = new ArrayList<>();
             for (Snippet snippet : group.snippets) {
                 Map<String, String> snippetData = new HashMap<>();
-                snippetData.put("name", snippet.snippetName);
-                snippetData.put("code", snippet.snippetCode);
+                snippetData.put("name", snippet.getName());
+                snippetData.put("code", snippet.getText());
                 snippetsData.add(snippetData);
             }
 
@@ -84,7 +84,7 @@ public class DataManager {
                 groupsTabbedPanel.addGroup(groupName);
 
                 // Get the current group (the last one added)
-                Group currentGroup = groupsTabbedPanel.groups.get(groupsTabbedPanel.groups.size() - 1);
+                Group currentGroup = groupsTabbedPanel.groups.getLast();
 
                 // Add snippets to the group
                 List<Map<String, String>> snippetsData = (List<Map<String, String>>) groupData.get("snippets");
@@ -94,12 +94,11 @@ public class DataManager {
                         String snippetCode = snippetData.get("code");
 
                         // Add the snippet to the group
-                        currentGroup.addSnippet(snippetName);
+                        currentGroup.addSnippet(snippetName, snippetCode);
 
                         // Get the last added snippet and set its code
-                        Snippet snippet = currentGroup.snippets.get(currentGroup.snippets.size() - 1);
-                        snippet.snippetCode = snippetCode;
-                        snippet.updateGUI();
+                        Snippet snippet = currentGroup.snippets.getLast();
+                        snippet.revalidate();
                     }
                 }
             }
