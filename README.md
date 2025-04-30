@@ -11,7 +11,7 @@ User can create seperate Groups and store snippets in desired groups. The app ac
 * Make sure you have Java installed (JDK 21+)
 * Download the CodeSnippetManager.jar file from releases
 * From a CLI, Navigate to the directory where the JAR file is installed, and enter the following command :
-*  ``` java -jar FlowForge_v1.0.0.jar ```
+*  ``` java -jar (Name of jar).jar ```
 * The program should launch successfully. 
 
 Alternatively, you can also run the project via the source code.
