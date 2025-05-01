@@ -89,7 +89,7 @@ public class Snippet extends JPanel {
         snippetTextArea.setForeground(new Color(236, 236, 236));
         snippetTextArea.getDocument().addDocumentListener(new SimpleDocumentListener() {
             @Override
-            void updateText() {
+            public void updateText() {
                 snippetTextArea.revalidate();
                 lineCounter.render(snippetTextArea.getLineCount());
                 lineCounter.revalidate();

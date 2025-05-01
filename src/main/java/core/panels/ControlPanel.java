@@ -4,15 +4,11 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import core.App;
 import core.objects.Group;
+import core.objects.SimpleDocumentListener;
 import core.objects.Snippet;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class ControlPanel extends JPanel {
 
@@ -20,7 +16,6 @@ public class ControlPanel extends JPanel {
 
     private JButton newGroup, addSnippet;
     private JTextField searchBar;
-    private String searchString = "";
 
     public ControlPanel(App app) {
         this.app = app;
@@ -74,31 +69,14 @@ public class ControlPanel extends JPanel {
         searchBar.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search....");
         searchBar.putClientProperty(FlatClientProperties.STYLE, "arc : 10");
         searchBar.setPreferredSize(new Dimension(200, 30));
-
-        searchBar.addKeyListener(new KeyAdapter() {
+        searchBar.getDocument().addDocumentListener(new SimpleDocumentListener() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyTyped(e);
+            public void updateText() {
                 Group selectedGroup = app.tabbedPanel.getSelectedGroup();
-
-                searchString = searchBar.getText();
-
-                for (Snippet snippet : selectedGroup.snippets) {
-
-                    if (searchString.equalsIgnoreCase(snippet.getName())) {
-                        System.out.println(snippet.getName() + " found!");
-
-                        snippet.highlight();
-
-                        int y = snippet.getY();
-                        selectedGroup.scrollPane.getVerticalScrollBar().setValue(y - 50);
-                        System.out.println(y);
-
-                    } else {
-                        snippet.restore();
-                    }
-                }
-
+                selectedGroup.snippets.forEach(snippet -> snippet.setVisible(
+                        searchBar.getText().isBlank() ||
+                                snippet.getName().contains(searchBar.getText())
+                ));
             }
         });
     }

@@ -20,6 +20,6 @@ public abstract class SimpleDocumentListener implements DocumentListener {
         updateText();
     }
 
-    abstract void updateText();
+    public abstract void updateText();
 
 }

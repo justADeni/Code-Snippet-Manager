@@ -1,8 +1,5 @@
 package core;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.*;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTAtomOneDarkIJTheme;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import core.panels.ControlPanel;
 import core.panels.GroupsTabbedPanel;

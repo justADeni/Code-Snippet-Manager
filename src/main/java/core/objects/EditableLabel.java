@@ -1,7 +1,5 @@
 package core.objects;
 
-import com.formdev.flatlaf.extras.components.FlatButton;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -87,8 +85,9 @@ public class EditableLabel extends JPanel {
 
         ActionListener finishEditing = e -> {
             String newText = textField.getText();
-            if (newText.isBlank() || snippet.group.snippets.stream().anyMatch(s -> snippet.getName().equalsIgnoreCase(newText))) {
-                add(new FadeToolTip("Error", this));
+            if (newText.isBlank() || snippet.group.snippets.stream().anyMatch(s -> s != snippet && snippet.getName().equalsIgnoreCase(newText))) {
+                JOptionPane.showMessageDialog(null, "Snippet name cannot be blank",
+                        "Name blank", JOptionPane.ERROR_MESSAGE);
             } else {
                 label.setText(textField.getText());
                 snippet.detectCodeType();
@@ -97,10 +96,14 @@ public class EditableLabel extends JPanel {
             label.setVisible(true);
         };
 
-        // Handles ENTER and focus loss
+        // ENTER and focus loss confirm edit
         textField.addActionListener(finishEditing);
         textField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
+                // idk what but something already handles this case so avoid message dialog being thrown twice
+                if (textField.getText().isBlank())
+                    return;
+
                 finishEditing.actionPerformed(null);
             }
         });
