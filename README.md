@@ -8,11 +8,18 @@ User can create seperate Groups and store snippets in desired groups. The app ac
 
 # How to run Code Snippet Manager
 
+## Via Desktop Installer
+* Download and run the installer from the [latest release](../../releases/tag/master).
+
+## Via JAR file
+
 * Make sure you have Java installed (JDK 21+)
 * Download the CodeSnippetManager.jar file from releases
 * From a CLI, Navigate to the directory where the JAR file is installed, and enter the following command :
 *  ``` java -jar (Name of jar).jar ```
 * The program should launch successfully. 
+
+## From Sources
 
 Alternatively, you can also run the project via the source code.
 * Copy the project via the CLI, or by downloading the .zip file
