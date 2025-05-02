@@ -1,8 +1,8 @@
 package core;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import core.customisation.AboutItem;
+import core.customisation.GithubItem;
 import core.customisation.ThemeMenu;
+import core.highlight.GeneralTheme;
 import core.io.DataManager;
 import core.io.SettingsManager;
 import core.panels.ControlPanel;
@@ -21,7 +21,7 @@ public class App extends JFrame {
 
     private App() {
         this.setTitle("Code Snippet Manager");
-        this.setSize(500, 600);
+        this.setSize(600, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
@@ -34,14 +34,12 @@ public class App extends JFrame {
         tabbedPanel.init();
         controlPanel.init();
 
-        SettingsManager.load();
-
         dataManager = new DataManager(tabbedPanel);
         dataManager.loadData();
 
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add(new ThemeMenu());
-        menuBar.add(new AboutItem());
+        menuBar.add(new ThemeMenu(this));
+        menuBar.add(new GithubItem());
         setJMenuBar(menuBar);
 
         this.addWindowListener(new WindowAdapter() {
@@ -61,7 +59,8 @@ public class App extends JFrame {
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatMacDarkLaf());
+        SettingsManager.load();
+        UIManager.setLookAndFeel(GeneralTheme.load());
 
         SwingUtilities.invokeLater(() -> {
             App app = new App();

@@ -7,10 +7,10 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 
-public class AboutItem extends JMenu {
+public class GithubItem extends JMenu {
 
-    public AboutItem() {
-        super("About");
+    public GithubItem() {
+        super("Github");
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

@@ -1,5 +1,6 @@
 package core.highlight;
 
+import core.io.SettingsManager;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 
@@ -11,9 +12,18 @@ public class HighlightTheme extends Theme {
         super(textArea);
     }
 
-    public static Theme load(String name) {
+    private static String themeName;
+    private static Theme theme;
+
+    public static Theme load() {
+        String name = SettingsManager.get().highlight;
+        if (themeName != null && themeName.equals(name))
+            return theme;
+
         try {
-            return Theme.load(HighlightTheme.class.getResourceAsStream("/highlight/" + name + ".xml"));
+            theme = Theme.load(HighlightTheme.class.getResourceAsStream("/" + name + ".xml"));
+            themeName = name;
+            return theme;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

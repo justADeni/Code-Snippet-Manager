@@ -87,7 +87,7 @@ public class Snippet extends JPanel {
         snippetTextArea.setAutoIndentEnabled(true);
         detectCodeType();
         snippetTextArea.setPreferredSize(rolledSize);
-        HighlightTheme.load(SettingsManager.get().highlight).apply(snippetTextArea);
+        HighlightTheme.load().apply(snippetTextArea);
         snippetTextArea.getDocument().addDocumentListener(new SimpleDocumentListener() {
             @Override
             public void updateText() {
