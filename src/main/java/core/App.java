@@ -1,6 +1,10 @@
 package core;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import core.customisation.AboutItem;
+import core.customisation.ThemeMenu;
+import core.io.DataManager;
+import core.io.SettingsManager;
 import core.panels.ControlPanel;
 import core.panels.GroupsTabbedPanel;
 
@@ -30,13 +34,21 @@ public class App extends JFrame {
         tabbedPanel.init();
         controlPanel.init();
 
+        SettingsManager.load();
+
         dataManager = new DataManager(tabbedPanel);
         dataManager.loadData();
+
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(new ThemeMenu());
+        menuBar.add(new AboutItem());
+        setJMenuBar(menuBar);
 
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dataManager.saveData();
+                SettingsManager.save();
             }
         });
     }

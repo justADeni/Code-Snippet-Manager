@@ -3,6 +3,9 @@ package core.objects;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import core.highlight.Detector;
+import core.highlight.HighlightTheme;
+import core.highlight.ThemedSyntaxTextArea;
+import core.io.SettingsManager;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
@@ -79,14 +82,12 @@ public class Snippet extends JPanel {
             revalidate();
         });
 
-        snippetTextArea = new RSyntaxTextArea(snippetCode);
+        snippetTextArea = new ThemedSyntaxTextArea(snippetCode);
         snippetTextArea.setEditable(false);
         snippetTextArea.setAutoIndentEnabled(true);
         detectCodeType();
         snippetTextArea.setPreferredSize(rolledSize);
-        snippetTextArea.setBackground(new Color(23, 23, 23, 226));
-        snippetTextArea.setCurrentLineHighlightColor(new Color(28, 28, 28, 226));
-        snippetTextArea.setForeground(new Color(236, 236, 236));
+        HighlightTheme.load(SettingsManager.get().highlight).apply(snippetTextArea);
         snippetTextArea.getDocument().addDocumentListener(new SimpleDocumentListener() {
             @Override
             public void updateText() {

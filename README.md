@@ -2,23 +2,43 @@
 ![Screenshot 2025-04-29 175232](https://github.com/user-attachments/assets/85727d7c-02ea-4211-b988-7b9fe14a84b6)
 
 
-A simple light-weight Java tool that helps in managing code snippets
+# ✂️ Code Snippet Manager
 
-User can create seperate Groups and store snippets in desired groups. The app acts as a clipboard, and the snippets are saved between sessions.
+A simple, lightweight Java tool that helps in managing code snippets.
 
-# How to run Code Snippet Manager
+🗂️ Organize snippets into **Groups**.  
+📋 Acts as a persistent **clipboard** – your snippets are saved between sessions.
 
-* Make sure you have Java installed (JDK 21+)
-* Download the CodeSnippetManager.jar file from releases
-* From a CLI, Navigate to the directory where the JAR file is installed, and enter the following command :
-*  ``` java -jar (Name of jar).jar ```
-* The program should launch successfully. 
+---
 
-Alternatively, you can also run the project via the source code.
-* Copy the project via the CLI, or by downloading the .zip file
-* extract the zip and open the project in IntelliJ IDEA
-* Navigate to CodeSnippetManager.java (which contains the main method)
-* Click on run to execute the program
+## 🚀 How to Run
+
+### 🧾 Prerequisites
+- Java **JDK 21+** installed
+
+### 📦 Running the JAR
+1. Download `CodeSnippetManager.jar` from the [Releases](releases).
+2. Open a terminal and navigate to the folder containing the JAR.
+3. Run:
+
+```bash
+   java -jar CodeSnippetManager.jar
+```
+✅ The program should launch successfully!
+
+### 🛠️ Running from Source
+1. Clone the project or download the .zip.
+2. Extract and open it in IntelliJ IDEA (or your preferred IDE).
+3. Locate CodeSnippetManager.java (contains the main method).
+4. Click Run.
+
+### 🏗️ Building the Project
+To build the JAR file yourself:
+
+```bash
+  mvn package
+```
+After the build, you’ll find the .jar file in the target/ directory.
 
 # Screenshots 
 ![Screenshot 2025-04-29 174909](https://github.com/user-attachments/assets/204de06a-6740-45dc-ac9c-5c94ea17954b)
