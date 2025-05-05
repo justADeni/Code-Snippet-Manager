@@ -6,12 +6,16 @@ import java.awt.event.MouseEvent;
 
 public class ClickableItem extends JMenuItem {
 
+    public final String name;
+
     public ClickableItem(String name, MenuClickHandler menuClickHandler) {
-        super(name);
+        super(" " + name);
+        this.name = name;
+        final ClickableItem self = this;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                menuClickHandler.click(name);
+                menuClickHandler.click(self);
             }
         });
     }

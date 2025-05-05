@@ -19,8 +19,6 @@ public class Group extends JPanel {
     public ArrayList<Snippet> snippets;
     public JScrollPane scrollPane;
 
-    private JPopupMenu popupMenu;
-
     private JTextField searchBar;
 
     public Group(GroupsTabbedPanel groupsTabbedPanel, String groupName) {
@@ -42,30 +40,15 @@ public class Group extends JPanel {
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
         searchBar.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search....");
 
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    popupMenu.show(scrollPane, e.getX(), e.getY() + 10);
-                }
-            }
-        });
-
         initPopupMenu();
     }
 
     public void initPopupMenu() {
-        popupMenu = new JPopupMenu();
-
         JMenuItem deleteGroupItem = new JMenuItem("Delete Group");
         JMenuItem renameGroupItem = new JMenuItem("Rename Group");
 
         renameGroupItem.addActionListener(e -> renameGroup());
         deleteGroupItem.addActionListener(e -> deleteGroup());
-
-        popupMenu.add(renameGroupItem);
-        popupMenu.add(deleteGroupItem);
     }
 
     public void addSnippet(String name, String code) {
