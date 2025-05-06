@@ -1,14 +1,23 @@
 package core.objects;
 
+import core.highlight.HighlightTheme;
 import core.highlight.ThemedSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.Theme;
-import org.fife.ui.rtextarea.ColorBackgroundPainterStrategy;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class LineCounter extends ThemedSyntaxTextArea {
+
+    private static final float FACTOR = 0.8f;
+
+    private static Color darken(Color in) {
+        return new Color((int)(in.getRed() * LineCounter.FACTOR), (int)(in.getGreen() * LineCounter.FACTOR), (int)(in.getBlue() * LineCounter.FACTOR), in.getAlpha());
+    }
+
+    @Override
+    public void setBackground(Color bg) {
+        super.setBackground(darken(bg));
+    }
 
     public LineCounter() {
         super("1");
@@ -16,6 +25,7 @@ public class LineCounter extends ThemedSyntaxTextArea {
         setFocusable(false);
         setOpaque(true);
         setHighlightCurrentLine(false);
+        setBackground(HighlightTheme.get().bgColor);
     }
 
     // This is ugly but it wouldn't work any other way
@@ -34,11 +44,6 @@ public class LineCounter extends ThemedSyntaxTextArea {
         setMinimumSize(dimension);
         setPreferredSize(dimension);
         setMaximumSize(dimension);
-    }
-
-    @Override
-    public void setBackground(Color bg) {
-        super.setBackground(new Color((int)(bg.getRed() * 0.8), (int)(bg.getGreen() * 0.8), (int)(bg.getBlue() * 0.8), bg.getAlpha()));
     }
 
 }

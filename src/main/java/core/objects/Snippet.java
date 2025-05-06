@@ -5,7 +5,6 @@ import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import core.highlight.Detector;
 import core.highlight.HighlightTheme;
 import core.highlight.ThemedSyntaxTextArea;
-import core.io.SettingsManager;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
@@ -19,16 +18,13 @@ public class Snippet extends JPanel {
 
     public Group group;
 
-    private JPanel controlPanel;
-    private EditableLabel nameLabel;
-    private JButton copyButton;
-    private JButton deleteButton;
-    private JToggleButton editToggle;
+    private final EditableLabel nameLabel;
+    private final JToggleButton editToggle;
     private final Dimension buttonDimension = new Dimension(80, 35);
 
     private RSyntaxTextArea snippetTextArea;
     private final Dimension rolledSize = new Dimension(400, 200);
-    private LineCounter lineCounter;
+    private final LineCounter lineCounter;
 
     private final Detector detector = new Detector();
 
@@ -41,7 +37,7 @@ public class Snippet extends JPanel {
         this.setPreferredSize(rolledSize);
         this.putClientProperty(FlatClientProperties.STYLE, "arc : 20");
 
-        controlPanel = new JPanel();
+        JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
         controlPanel.setPreferredSize(new Dimension(this.getPreferredSize().width, 70));
 
@@ -49,7 +45,7 @@ public class Snippet extends JPanel {
         nameLabel.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 20));
         nameLabel.setPreferredSize(new Dimension(160, 90));
 
-        copyButton = new JButton("Copy");
+        JButton copyButton = new JButton("Copy");
         copyButton.setPreferredSize(buttonDimension);
         copyButton.setMaximumSize(buttonDimension);
         copyButton.setBackground(new Color(46, 97, 234));
@@ -60,7 +56,7 @@ public class Snippet extends JPanel {
             clipboard.setContents(selection, null);
         });
 
-        deleteButton = new JButton("Delete");
+        JButton deleteButton = new JButton("Delete");
         deleteButton.setPreferredSize(buttonDimension);
         deleteButton.setMaximumSize(buttonDimension);
         deleteButton.setBackground(new Color(148, 24, 24));
@@ -87,7 +83,7 @@ public class Snippet extends JPanel {
         snippetTextArea.setAutoIndentEnabled(true);
         detectCodeType();
         snippetTextArea.setPreferredSize(rolledSize);
-        HighlightTheme.load().apply(snippetTextArea);
+        HighlightTheme.get().apply(snippetTextArea);
         snippetTextArea.getDocument().addDocumentListener(new SimpleDocumentListener() {
             @Override
             public void updateText() {
@@ -100,6 +96,7 @@ public class Snippet extends JPanel {
         });
 
         lineCounter = new LineCounter();
+        lineCounter.render(snippetTextArea.getLineCount());
 
         JPanel textAreasHolder = new JPanel();
         textAreasHolder.setLayout(new BoxLayout(textAreasHolder, BoxLayout.X_AXIS));

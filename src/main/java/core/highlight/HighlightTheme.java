@@ -15,7 +15,7 @@ public class HighlightTheme extends Theme {
     private static String themeName;
     private static Theme theme;
 
-    public static Theme load() {
+    public static Theme get() {
         String name = SettingsManager.get().highlight;
         if (themeName != null && themeName.equals(name))
             return theme;

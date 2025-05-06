@@ -7,8 +7,6 @@ import java.util.TimerTask;
 
 public class EditableLabel extends JPanel {
 
-    private final Snippet snippet;
-
     private final JLabel label;
     private final JTextField textField;
 
@@ -36,7 +34,6 @@ public class EditableLabel extends JPanel {
     }
 
     public EditableLabel(String text, Snippet snippet) {
-        this.snippet = snippet;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;

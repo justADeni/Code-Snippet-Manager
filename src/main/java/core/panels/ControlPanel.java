@@ -50,8 +50,11 @@ public class ControlPanel extends JPanel {
 
             String name = JOptionPane.showInputDialog("Snippet Name");
 
-            if (name == null || name.isBlank()) return;
-
+            if (name == null || name.isBlank()) {
+                JOptionPane.showMessageDialog(null, "Snippet name cannot be blank",
+                        "Name blank", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             for (Snippet snippet : selectedGroup.snippets) {
                 if (name.equals(snippet.getName())) {

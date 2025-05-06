@@ -36,7 +36,7 @@ public class HighlightSubmenu extends JMenu implements MenuClickHandler {
     @Override
     public void click(ClickableItem item) {
         SettingsManager.get().highlight = item.name;
-        Theme theme = HighlightTheme.load();
+        Theme theme = HighlightTheme.get();
         ThemedSyntaxTextArea.setTheme(theme);
         redrawSelectionStatus();
     }
