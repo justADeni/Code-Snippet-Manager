@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.TimerTask;
 
-public class EditableLabel extends JPanel {
+public abstract class EditableLabel extends JPanel {
 
     private final JLabel label;
     private final JTextField textField;
@@ -33,7 +33,7 @@ public class EditableLabel extends JPanel {
         super.setMinimumSize(dimension);
     }
 
-    public EditableLabel(String text, Snippet snippet) {
+    public EditableLabel(String text, Snippet snippet, int ipady, int ipadx) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -42,8 +42,8 @@ public class EditableLabel extends JPanel {
         gbc.weighty = 1.0;
         gbc.weightx = 0.0;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.ipady = 20;
-        gbc.ipadx = 120;
+        gbc.ipady = ipady;
+        gbc.ipadx = ipadx;
         gbc.insets = new Insets(0, 0, 0, 50);
 
         label = new JLabel(text);
@@ -81,13 +81,13 @@ public class EditableLabel extends JPanel {
         });
 
         ActionListener finishEditing = e -> {
-            String newText = textField.getText();
-            if (newText.isBlank() || snippet.group.snippets.stream().anyMatch(s -> s != snippet && snippet.getName().equalsIgnoreCase(newText))) {
-                JOptionPane.showMessageDialog(null, "Snippet name cannot be blank",
-                        "Name blank", JOptionPane.ERROR_MESSAGE);
-            } else {
-                label.setText(textField.getText());
-                snippet.detectCodeType();
+            switch (finishEdit(label.getText(), textField.getText())) {
+                case LabelEditResult.Success ignored -> {
+                    label.setText(textField.getText());
+                    snippet.detectCodeType();
+                }
+                case LabelEditResult.Error error -> JOptionPane.showMessageDialog(null, error.message(),
+                        error.title(), JOptionPane.ERROR_MESSAGE);
             }
             textField.setVisible(false);
             label.setVisible(true);
@@ -98,7 +98,7 @@ public class EditableLabel extends JPanel {
         textField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
                 // idk what but something already handles this case so avoid message dialog being thrown twice
-                if (textField.getText().isBlank())
+                if (textField.getText().isBlank() && e.getCause() == FocusEvent.Cause.ACTIVATION)
                     return;
 
                 finishEditing.actionPerformed(null);
@@ -115,4 +115,6 @@ public class EditableLabel extends JPanel {
             }
         });
     }
+
+    public abstract LabelEditResult finishEdit(String oldText, String newText);
 }

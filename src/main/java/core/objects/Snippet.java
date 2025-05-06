@@ -41,7 +41,18 @@ public class Snippet extends JPanel {
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
         controlPanel.setPreferredSize(new Dimension(this.getPreferredSize().width, 70));
 
-        nameLabel = new EditableLabel(snippetName, this);
+        final Snippet snippet = this;
+        nameLabel = new EditableLabel(snippetName, this, 20, 120) {
+            @Override
+            public LabelEditResult finishEdit(String oldText, String newText) {
+                boolean isBlankOrDuplicite = newText.isBlank() ||
+                        group.snippets.stream()
+                        .filter(s -> s != snippet)
+                        .anyMatch(s -> s.getName().equalsIgnoreCase(newText));
+
+                return isBlankOrDuplicite ? new LabelEditResult.Error("Name blank", "Snippet name cannot be blank") : new LabelEditResult.Success();
+            }
+        };
         nameLabel.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 20));
         nameLabel.setPreferredSize(new Dimension(160, 90));
 

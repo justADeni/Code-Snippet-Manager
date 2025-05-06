@@ -1,6 +1,5 @@
 package core.objects;
 
-import core.highlight.HighlightTheme;
 import core.highlight.ThemedSyntaxTextArea;
 
 import java.awt.*;
@@ -8,15 +7,9 @@ import java.awt.geom.Rectangle2D;
 
 public class LineCounter extends ThemedSyntaxTextArea {
 
-    private static final float FACTOR = 0.8f;
-
-    private static Color darken(Color in) {
-        return new Color((int)(in.getRed() * LineCounter.FACTOR), (int)(in.getGreen() * LineCounter.FACTOR), (int)(in.getBlue() * LineCounter.FACTOR), in.getAlpha());
-    }
-
     @Override
     public void setBackground(Color bg) {
-        super.setBackground(darken(bg));
+        super.setBackground(bg.darker());
     }
 
     public LineCounter() {
@@ -25,7 +18,6 @@ public class LineCounter extends ThemedSyntaxTextArea {
         setFocusable(false);
         setOpaque(true);
         setHighlightCurrentLine(false);
-        setBackground(HighlightTheme.get().bgColor);
     }
 
     // This is ugly but it wouldn't work any other way

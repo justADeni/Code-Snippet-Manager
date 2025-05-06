@@ -39,16 +39,6 @@ public class Group extends JPanel {
         searchBar = new JTextField();
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
         searchBar.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search....");
-
-        initPopupMenu();
-    }
-
-    public void initPopupMenu() {
-        JMenuItem deleteGroupItem = new JMenuItem("Delete Group");
-        JMenuItem renameGroupItem = new JMenuItem("Rename Group");
-
-        renameGroupItem.addActionListener(e -> renameGroup());
-        deleteGroupItem.addActionListener(e -> deleteGroup());
     }
 
     public void addSnippet(String name, String code) {
