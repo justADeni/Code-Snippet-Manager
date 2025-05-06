@@ -10,20 +10,40 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class Group extends JPanel {
 
-    private GroupsTabbedPanel groupsTabbedPanel;
-    public String groupName;
+    private final GroupsTabbedPanel groupsTabbedPanel;
+    public final EditableLabel nameLabel;
 
-    public ArrayList<Snippet> snippets;
-    public JScrollPane scrollPane;
+    public final ArrayList<Snippet> snippets;
+    public final JScrollPane scrollPane;
 
-    private JTextField searchBar;
+    private final JTextField searchBar;
 
     public Group(GroupsTabbedPanel groupsTabbedPanel, String groupName) {
         this.groupsTabbedPanel = groupsTabbedPanel;
-        this.groupName = groupName;
+        final Group group = this;
+        nameLabel = new EditableLabel(groupName, 0, 0, 0) {
+            @Override
+            public LabelEditResult finishEdit(String oldText, String newText) {
+                if (newText.isBlank()) {
+                    return new LabelEditResult.Error("Name blank", "Group name cannot be blank");
+                } else if (groupsTabbedPanel.groups.stream().anyMatch(g -> g != group && g.getName().equalsIgnoreCase(newText))) {
+                    return new LabelEditResult.Error("Name in use", "Group name is already taken");
+                } else {
+                    return new LabelEditResult.Success();
+                }
+            }
+        };
+        nameLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                groupsTabbedPanel.setSelectedComponent(scrollPane);
+            }
+        });
+
         this.setPreferredSize(new Dimension(400, 4000));
         this.setBackground(groupsTabbedPanel.getBackground().darker());
         this.setLayout(new FlowLayout());
@@ -64,31 +84,14 @@ public class Group extends JPanel {
         }
     }
 
-    public void renameGroup() {
-        String newName = JOptionPane.showInputDialog("Enter group name");
-
-        if (newName == null || newName.trim().isEmpty()) {
-            return; // Cancel or empty input, do nothing
-        }
-
-        for (Group group : groupsTabbedPanel.groups) {
-            if (newName.equals(group.groupName)) {
-                JOptionPane.showMessageDialog(null, "Group name is already taken",
-                        "Name in use", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        }
-
-        this.groupName = newName;
-
-        int index = groupsTabbedPanel.getSelectedIndex();
-        groupsTabbedPanel.setTitleAt(index, newName);
+    @Override
+    public String getName() {
+        return nameLabel.getName();
     }
-
 
     @Override
     public String toString() {
-        return groupName;
+        return getName();
     }
 
 }

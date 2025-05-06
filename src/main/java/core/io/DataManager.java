@@ -35,7 +35,7 @@ public class DataManager {
 
         for (Group group : groupsTabbedPanel.groups) {
             Map<String, Object> groupData = new HashMap<>();
-            groupData.put("groupName", group.groupName);
+            groupData.put("groupName", group.getName());
 
             List<Map<String, String>> snippetsData = new ArrayList<>();
             for (Snippet snippet : group.snippets) {

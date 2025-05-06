@@ -21,7 +21,7 @@ public class SettingsManager {
     private static Settings defaults() {
         Settings defaults = new Settings();
         defaults.highlight = "Monokai";
-        defaults.general = "Monokai";
+        defaults.general = "Mac Dark";
         return defaults;
     }
 

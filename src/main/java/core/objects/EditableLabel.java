@@ -10,7 +10,8 @@ public abstract class EditableLabel extends JPanel {
     private final JLabel label;
     private final JTextField textField;
 
-    public String getText() {
+    @Override
+    public String getName() {
         return label.getText();
     }
 
@@ -33,7 +34,7 @@ public abstract class EditableLabel extends JPanel {
         super.setMinimumSize(dimension);
     }
 
-    public EditableLabel(String text, Snippet snippet, int ipady, int ipadx) {
+    public EditableLabel(String text, int ipady, int ipadx, int rightInset) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -44,16 +45,19 @@ public abstract class EditableLabel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         gbc.ipady = ipady;
         gbc.ipadx = ipadx;
-        gbc.insets = new Insets(0, 0, 0, 50);
+        gbc.insets = new Insets(0, 0, 0, rightInset);
 
         label = new JLabel(text);
+        label.setOpaque(true);
+        label.setBackground(new Color(0, 0, 0, 0));
+
         textField = new JTextField();
         textField.setVisible(false);
 
         add(label, gbc);
         add(textField, gbc);
 
-        label.addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             boolean isAlreadyOneClick;
             final java.util.Timer timer = new java.util.Timer("doubleClickTimer", false);
             @Override
@@ -80,28 +84,25 @@ public abstract class EditableLabel extends JPanel {
             }
         });
 
-        ActionListener finishEditing = e -> {
+        ActionListener finishEditHandler = e -> {
             switch (finishEdit(label.getText(), textField.getText())) {
-                case LabelEditResult.Success ignored -> {
-                    label.setText(textField.getText());
-                    snippet.detectCodeType();
-                }
+                case LabelEditResult.Success ignored -> label.setText(textField.getText());
                 case LabelEditResult.Error error -> JOptionPane.showMessageDialog(null, error.message(),
                         error.title(), JOptionPane.ERROR_MESSAGE);
             }
             textField.setVisible(false);
             label.setVisible(true);
         };
+        textField.addActionListener(finishEditHandler);
 
         // ENTER and focus loss confirm edit
-        textField.addActionListener(finishEditing);
         textField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
                 // idk what but something already handles this case so avoid message dialog being thrown twice
                 if (textField.getText().isBlank() && e.getCause() == FocusEvent.Cause.ACTIVATION)
                     return;
 
-                finishEditing.actionPerformed(null);
+                finishEditHandler.actionPerformed(null);
             }
         });
 
@@ -109,12 +110,30 @@ public abstract class EditableLabel extends JPanel {
         textField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    textField.setText(getText());
-                    finishEditing.actionPerformed(null);
+                    textField.setText(getName());
+                    finishEditHandler.actionPerformed(null);
                 }
             }
         });
     }
 
     public abstract LabelEditResult finishEdit(String oldText, String newText);
+
+    @Override
+    public synchronized void addMouseListener(MouseListener l) {
+        super.addMouseListener(l);
+        label.addMouseListener(l);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        EditableLabel that = (EditableLabel) o;
+        return label.getText().equals(that.label.getText());
+    }
+
+    @Override
+    public int hashCode() {
+        return label.getText().hashCode();
+    }
 }

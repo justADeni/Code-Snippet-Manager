@@ -42,15 +42,17 @@ public class Snippet extends JPanel {
         controlPanel.setPreferredSize(new Dimension(this.getPreferredSize().width, 70));
 
         final Snippet snippet = this;
-        nameLabel = new EditableLabel(snippetName, this, 20, 120) {
+        nameLabel = new EditableLabel(snippetName, 20, 120, 50) {
             @Override
             public LabelEditResult finishEdit(String oldText, String newText) {
-                boolean isBlankOrDuplicite = newText.isBlank() ||
-                        group.snippets.stream()
-                        .filter(s -> s != snippet)
-                        .anyMatch(s -> s.getName().equalsIgnoreCase(newText));
-
-                return isBlankOrDuplicite ? new LabelEditResult.Error("Name blank", "Snippet name cannot be blank") : new LabelEditResult.Success();
+                if (newText.isBlank()) {
+                    return new LabelEditResult.Error("Name blank", "Snippet name cannot be blank");
+                } else if (group.snippets.stream().anyMatch(s -> s != snippet && s.getName().equalsIgnoreCase(newText))) {
+                    return new LabelEditResult.Error("Duplicate name", "Two snippet names cannot be identical");
+                } else {
+                    snippetTextArea.setSyntaxEditingStyle(detector.get(newText));
+                    return new LabelEditResult.Success();
+                }
             }
         };
         nameLabel.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 20));
@@ -92,7 +94,7 @@ public class Snippet extends JPanel {
         snippetTextArea = new ThemedSyntaxTextArea(snippetCode);
         snippetTextArea.setEditable(false);
         snippetTextArea.setAutoIndentEnabled(true);
-        detectCodeType();
+        snippetTextArea.setSyntaxEditingStyle(detector.get(getName()));
         snippetTextArea.setPreferredSize(rolledSize);
         HighlightTheme.get().apply(snippetTextArea);
         snippetTextArea.getDocument().addDocumentListener(new SimpleDocumentListener() {
@@ -124,7 +126,7 @@ public class Snippet extends JPanel {
     }
 
     public String getName() {
-        return nameLabel.getText();
+        return nameLabel.getName();
     }
 
     public String getText() {
@@ -178,10 +180,6 @@ public class Snippet extends JPanel {
         } else {
             setPreferredSize(rolledSize);
         }
-    }
-
-    public void detectCodeType() {
-        snippetTextArea.setSyntaxEditingStyle(detector.get(getName()));
     }
 
 }
