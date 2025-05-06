@@ -10,19 +10,18 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 public class Group extends JPanel {
 
     private final GroupsTabbedPanel groupsTabbedPanel;
-    public final EditableLabel nameLabel;
+    private final EditableLabel nameLabel;
 
     public final ArrayList<Snippet> snippets;
     public final JScrollPane scrollPane;
 
     private final JTextField searchBar;
 
-    public Group(GroupsTabbedPanel groupsTabbedPanel, String groupName) {
+    public Group(GroupsTabbedPanel groupsTabbedPanel, String groupName, boolean newlyCreated) {
         this.groupsTabbedPanel = groupsTabbedPanel;
         final Group group = this;
         nameLabel = new EditableLabel(groupName, 0, 0, 0) {
@@ -59,10 +58,13 @@ public class Group extends JPanel {
         searchBar = new JTextField();
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
         searchBar.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search....");
+
+        if (newlyCreated)
+            nameLabel.setEditable();
     }
 
-    public void addSnippet(String name, String code) {
-        Snippet snippet = new Snippet(this, name, code);
+    public void addSnippet(String name, String code, boolean newlyCreated) {
+        Snippet snippet = new Snippet(this, name, code, newlyCreated);
 
         snippets.add(snippet);
         this.add(snippet);
@@ -82,6 +84,10 @@ public class Group extends JPanel {
             int index = groupsTabbedPanel.getSelectedIndex();
             groupsTabbedPanel.remove(index);
         }
+    }
+
+    public EditableLabel getNameLabel() {
+        return nameLabel;
     }
 
     @Override

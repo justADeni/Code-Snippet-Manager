@@ -27,7 +27,7 @@ public class GroupsTabbedPanel extends JTabbedPane {
                 int index = this.getSelectedIndex();
                 final EditableLabel nameLabel = (EditableLabel) this.getTabComponentAt(index);
                 groups.stream()
-                        .filter(group -> group.nameLabel.equals(nameLabel))
+                        .filter(group -> group.getNameLabel().equals(nameLabel))
                         .findFirst()
                         .ifPresent(group -> selectedGroup = group);
 
@@ -46,12 +46,13 @@ public class GroupsTabbedPanel extends JTabbedPane {
         app.add(this, BorderLayout.CENTER);
     }
 
-    public void addGroup(String groupName) {
-        Group group = new Group(this, groupName);
+    public void addGroup(String groupName, boolean newlyCreated) {
+        Group group = new Group(this, groupName, newlyCreated);
+
         groups.add(group);
 
         this.addTab(null, group.scrollPane);
-        this.setTabComponentAt(this.indexOfComponent(group.scrollPane), group.nameLabel);
+        this.setTabComponentAt(this.indexOfComponent(group.scrollPane), group.getNameLabel());
         revalidate();
     }
 

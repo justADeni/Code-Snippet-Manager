@@ -63,14 +63,8 @@ public abstract class EditableLabel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (isAlreadyOneClick) {
-
                     // double click
-                    textField.setText(label.getText());
-                    label.setVisible(false);
-                    textField.setVisible(true);
-                    textField.requestFocus();
-                    textField.selectAll();
-
+                    setEditable();
                     isAlreadyOneClick = false;
                 } else {
                     isAlreadyOneClick = true;
@@ -115,6 +109,14 @@ public abstract class EditableLabel extends JPanel {
                 }
             }
         });
+    }
+
+    public void setEditable() {
+        textField.setText(label.getText());
+        label.setVisible(false);
+        textField.setVisible(true);
+        textField.selectAll();
+        SwingUtilities.invokeLater(textField::requestFocusInWindow);
     }
 
     public abstract LabelEditResult finishEdit(String oldText, String newText);

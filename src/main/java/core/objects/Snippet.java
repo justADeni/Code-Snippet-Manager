@@ -28,7 +28,7 @@ public class Snippet extends JPanel {
 
     private final Detector detector = new Detector();
 
-    public Snippet(Group group, String snippetName, String snippetCode) {
+    public Snippet(Group group, String snippetName, String snippetCode, boolean newlyCreated) {
         this.group = group;
 
         this.setLayout(new BorderLayout());
@@ -123,6 +123,9 @@ public class Snippet extends JPanel {
 
         this.add(controlPanel, BorderLayout.NORTH);
         this.add(textAreasHolder, BorderLayout.CENTER);
+
+        if (newlyCreated)
+            nameLabel.setEditable();
     }
 
     public String getName() {

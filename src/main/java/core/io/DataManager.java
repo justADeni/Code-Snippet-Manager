@@ -81,7 +81,7 @@ public class DataManager {
             // Recreate groups and snippets
             for (Map<String, Object> groupData : groupsData) {
                 String groupName = (String) groupData.get("groupName");
-                groupsTabbedPanel.addGroup(groupName);
+                groupsTabbedPanel.addGroup(groupName, false);
 
                 // Get the current group (the last one added)
                 Group currentGroup = groupsTabbedPanel.groups.getLast();
@@ -94,7 +94,7 @@ public class DataManager {
                         String snippetCode = snippetData.get("code");
 
                         // Add the snippet to the group
-                        currentGroup.addSnippet(snippetName, snippetCode);
+                        currentGroup.addSnippet(snippetName, snippetCode, false);
 
                         // Get the last added snippet and set its code
                         Snippet snippet = currentGroup.snippets.getLast();

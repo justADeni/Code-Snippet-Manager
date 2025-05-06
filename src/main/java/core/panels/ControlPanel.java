@@ -25,47 +25,14 @@ public class ControlPanel extends JPanel {
     public void init() {
         newGroup = getButton("New group");
         newGroup.addActionListener(e -> {
-            // TODO: make this not use a JOptionPane
-            String groupName = JOptionPane.showInputDialog("Enter group name", "Group");
-
-            if (groupName == null || groupName.isBlank()) return;
-
-            for (Group group : app.tabbedPanel.groups) {
-                if (groupName.equals(group.getName())) {
-                    JOptionPane.showMessageDialog(null, "Group name is already taken",
-                            "Name in use", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            app.tabbedPanel.addGroup(groupName);
+            app.tabbedPanel.addGroup("New Group", true);
+            app.tabbedPanel.setSelectedIndex(app.tabbedPanel.getTabCount()-1);
         });
 
-        addSnippet = getButton("Add snippet");
+        addSnippet = getButton("New Snippet");
         addSnippet.addActionListener(e -> {
             Group selectedGroup = app.tabbedPanel.getSelectedGroup();
-
-            if (selectedGroup == null || app.tabbedPanel.groups.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "You must create a group before creating a snippet");
-                return;
-            }
-            // TODO: again, make it not use JOptionPane
-            String name = JOptionPane.showInputDialog("Snippet Name");
-
-            if (name == null || name.isBlank()) {
-                JOptionPane.showMessageDialog(null, "Snippet name cannot be blank",
-                        "Name blank", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            for (Snippet snippet : selectedGroup.snippets) {
-                if (name.equals(snippet.getName())) {
-                    JOptionPane.showMessageDialog(null, "Snippet name is already taken",
-                            "Name in use", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-
-            selectedGroup.addSnippet(name, "");
+            selectedGroup.addSnippet("New Snippet", "", true);
         });
 
         searchBar = new JTextField();
