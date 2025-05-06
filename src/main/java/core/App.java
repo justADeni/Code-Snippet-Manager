@@ -60,7 +60,7 @@ public class App extends JFrame {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         SettingsManager.load();
-        UIManager.setLookAndFeel(GeneralTheme.load());
+        UIManager.setLookAndFeel(GeneralTheme.get());
 
         SwingUtilities.invokeLater(() -> {
             App app = new App();

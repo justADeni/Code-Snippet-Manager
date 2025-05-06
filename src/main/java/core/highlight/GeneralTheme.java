@@ -8,7 +8,7 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 
 public class GeneralTheme {
 
-    public static BasicLookAndFeel load() {
+    public static BasicLookAndFeel get() {
         return switch (SettingsManager.get().general) {
             case "Arc" -> new FlatArcIJTheme();
             case "Light Flat" -> new FlatLightFlatIJTheme();

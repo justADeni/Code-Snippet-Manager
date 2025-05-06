@@ -43,12 +43,12 @@ public class SettingsManager {
     public static void load() {
         if (!FILE.exists()) {
             settings = defaults();
+            return;
         }
         try (FileReader reader = new FileReader(FILE)) {
             settings = GSON.fromJson(reader, Settings.class);
         } catch (IOException e) {
             e.printStackTrace();
-            settings = defaults();
         }
     }
 }

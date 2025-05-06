@@ -100,9 +100,6 @@ public class Snippet extends JPanel {
         });
 
         lineCounter = new LineCounter();
-        lineCounter.setBackground(new Color(52, 52, 52, 226));
-        lineCounter.setFont(snippetTextArea.getFont());
-        lineCounter.render(snippetTextArea.getLineCount());
 
         JPanel textAreasHolder = new JPanel();
         textAreasHolder.setLayout(new BoxLayout(textAreasHolder, BoxLayout.X_AXIS));
@@ -124,16 +121,6 @@ public class Snippet extends JPanel {
 
     public String getText() {
         return snippetTextArea.getText();
-    }
-
-    public void highlight() {
-        setBackground(new Color(73, 137, 220));
-        controlPanel.setBackground(new Color(73, 137, 220));
-    }
-
-    public void restore() {
-        setBackground(group.getBackground().brighter());
-        controlPanel.setBackground(getBackground());
     }
 
     private void deleteSnippet() {
