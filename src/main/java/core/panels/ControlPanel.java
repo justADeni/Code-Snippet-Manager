@@ -5,7 +5,6 @@ import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import core.App;
 import core.objects.Group;
 import core.objects.SimpleDocumentListener;
-import core.objects.Snippet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ public class ControlPanel extends JPanel {
 
     private final App app;
 
-    private JButton newGroup, addSnippet;
+    private JButton newGroup, deleteGroup, addSnippet;
     private JTextField searchBar;
 
     public ControlPanel(App app) {
@@ -23,18 +22,6 @@ public class ControlPanel extends JPanel {
     }
 
     public void init() {
-        newGroup = getButton("New group");
-        newGroup.addActionListener(e -> {
-            app.tabbedPanel.addGroup("New Group", true);
-            app.tabbedPanel.setSelectedIndex(app.tabbedPanel.getTabCount()-1);
-        });
-
-        addSnippet = getButton("New Snippet");
-        addSnippet.addActionListener(e -> {
-            Group selectedGroup = app.tabbedPanel.getSelectedGroup();
-            selectedGroup.addSnippet("New Snippet", "", true);
-        });
-
         searchBar = new JTextField();
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
         searchBar.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search....");
@@ -50,20 +37,52 @@ public class ControlPanel extends JPanel {
                 ));
             }
         });
+
+        newGroup = getButton("New Group");
+        newGroup.addActionListener(e -> {
+            app.tabbedPanel.addGroup("New Group", true);
+            app.tabbedPanel.setSelectedIndex(app.tabbedPanel.getTabCount()-1);
+            addSnippet.setVisible(true);
+            deleteGroup.setVisible(true);
+            searchBar.setVisible(true);
+        });
+
+        deleteGroup = getButton("Delete Group", new Color(148, 24, 24));
+        deleteGroup.addActionListener(e -> {
+            app.tabbedPanel.getSelectedGroup().deleteGroup();
+            addSnippet.setVisible(!app.tabbedPanel.groups.isEmpty());
+            deleteGroup.setVisible(!app.tabbedPanel.groups.isEmpty());
+            searchBar.setVisible(!app.tabbedPanel.groups.isEmpty());
+            app.revalidate();
+        });
+
+        addSnippet = getButton("New Snippet");
+        addSnippet.addActionListener(e -> {
+            Group selectedGroup = app.tabbedPanel.getSelectedGroup();
+            selectedGroup.addSnippet("New Snippet", "", true);
+        });
+        addSnippet.setVisible(!app.tabbedPanel.groups.isEmpty());
+        deleteGroup.setVisible(!app.tabbedPanel.groups.isEmpty());
+        searchBar.setVisible(!app.tabbedPanel.groups.isEmpty());
     }
 
     public void addComponent() {
         this.add(searchBar);
         this.add(newGroup);
+        this.add(deleteGroup);
         this.add(addSnippet);
 
         app.add(this, BorderLayout.NORTH);
     }
 
     private JButton getButton(String text) {
+        return getButton(text, new Color(46, 97, 234));
+    }
+
+    private JButton getButton(String text, Color color) {
         JButton button = new JButton(text);
         button.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
-        button.setBackground(new Color(46, 97, 234));
+        button.setBackground(color);
         return button;
     }
 

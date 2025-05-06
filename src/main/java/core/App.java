@@ -32,10 +32,11 @@ public class App extends JFrame {
         tabbedPanel = new GroupsTabbedPanel(this);
 
         tabbedPanel.init();
-        controlPanel.init();
 
         dataManager = new DataManager(tabbedPanel);
         dataManager.loadData();
+
+        controlPanel.init();
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(new ThemeMenu(this));

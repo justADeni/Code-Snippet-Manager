@@ -57,8 +57,10 @@ public class GroupsTabbedPanel extends JTabbedPane {
     }
 
     public Group getSelectedGroup() {
-        if (selectedGroup == null && !groups.isEmpty())
+        if (selectedGroup == null && !groups.isEmpty()) {
             selectedGroup = groups.getFirst();
+            setSelectedComponent(selectedGroup.scrollPane);
+        }
 
         return selectedGroup;
     }
