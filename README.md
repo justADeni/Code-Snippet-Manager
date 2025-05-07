@@ -15,6 +15,7 @@
 
 A simple, lightweight Java tool that helps in managing code snippets.
 
+
 ### 🗂️ Organize snippets into **Groups**  
 ### 📋 Acts as a persistent **clipboard**
 - Snippets are saved between sessions
@@ -122,23 +123,15 @@ Both the general app theme and the snippet code area can be customized.
 ### 🧾 Prerequisites
 - Java **JDK 21+** installed
 
-### 📦 Running the JAR
-1. Download `CodeSnippetManager.jar` from the [Releases](releases).
-2. Open a terminal and navigate to the folder containing the JAR.
-3. Run:
-
-```bash
-   java -jar CodeSnippetManager.jar
-```
-- On certain platforms you can simply double-click the .jar to open the program, instead
-
-✅ The program should launch successfully!
+### 💾 Via Desktop Installer
+* Download and run the installer from the [latest release](../../releases/tag/master).
 
 ### 🛠️ Running from Source
-1. Clone the project or download the .zip.
-2. Extract and open it in IntelliJ IDEA (or your preferred IDE).
-3. Locate CodeSnippetManager.java (contains the main method).
-4. Click Run.
+Alternatively, you can also run the project via the source code.
+* Copy the project via the CLI, or by downloading the .zip file
+* extract the zip and open the project in IntelliJ IDEA
+* Navigate to CodeSnippetManager.java (which contains the main method)
+* Click on run to execute the program
 
 ### 🏗️ Building the Project
 To build the JAR file yourself:

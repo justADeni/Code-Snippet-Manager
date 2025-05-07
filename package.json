@@ -1,0 +1,36 @@
+{
+    "bin": {"code-snippet-manager": "jdeploy-bundle/jdeploy.js"},
+    "author": "Gufran Thakur",
+    "description": "A simple light-weight Java tool that helps in managing code snippets",
+    "main": "index.js",
+    "preferGlobal": true,
+    "repository": "",
+    "version": "1.0.0",
+    "jdeploy": {
+        "jdk": false,
+        "buildCommand": [
+            "./mvnw",
+            "package"
+        ],
+        "publishTargets": [{
+            "name": "npm: code-snippet-manager",
+            "type": "NPM",
+            "url": "code-snippet-manager"
+        }],
+        "javaVersion": "21",
+        "jar": "target/CodeSnippetManager-1.0-SNAPSHOT.jar",
+        "javafx": false,
+        "title": "Code Snippet Manager"
+    },
+    "dependencies": {
+        "command-exists-promise": "^2.0.2",
+        "node-fetch": "2.6.7",
+        "tar": "^4.4.8",
+        "yauzl": "^2.10.0",
+        "shelljs": "^0.8.4"
+    },
+    "license": "ISC",
+    "name": "code-snippet-manager",
+    "files": ["jdeploy-bundle"],
+    "scripts": {"test": "echo \"Error: no test specified\" && exit 1"}
+}
