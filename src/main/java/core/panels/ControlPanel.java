@@ -5,6 +5,7 @@ import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import core.App;
 import core.objects.Group;
 import core.objects.SimpleDocumentListener;
+import core.utils.DefaultNewName;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +40,8 @@ public class ControlPanel extends JPanel {
         });
         newGroup = getButton("New Group");
         newGroup.addActionListener(e -> {
-            app.tabbedPanel.addGroup("New Group", true);
+            String newName = DefaultNewName.get("New Group", s -> app.tabbedPanel.groups.stream().noneMatch(n -> n.getName().equals(s)));
+            app.tabbedPanel.addGroup(newName, true);
             app.tabbedPanel.setSelectedIndex(app.tabbedPanel.getTabCount()-1);
             addSnippet.setVisible(true);
             deleteGroup.setVisible(true);
@@ -59,7 +61,8 @@ public class ControlPanel extends JPanel {
         addSnippet = getButton("New Snippet");
         addSnippet.addActionListener(e -> {
             Group selectedGroup = app.tabbedPanel.getSelectedGroup();
-            selectedGroup.addSnippet("New Snippet", "", true);
+            String newName = DefaultNewName.get("New Snippet", s -> selectedGroup.snippets.stream().noneMatch(n -> n.getName().equals(s)));
+            selectedGroup.addSnippet(newName, "", true);
         });
         addSnippet.setVisible(!app.tabbedPanel.groups.isEmpty());
         deleteGroup.setVisible(!app.tabbedPanel.groups.isEmpty());
