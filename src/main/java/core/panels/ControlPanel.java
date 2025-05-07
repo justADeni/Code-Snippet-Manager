@@ -37,7 +37,6 @@ public class ControlPanel extends JPanel {
                 ));
             }
         });
-
         newGroup = getButton("New Group");
         newGroup.addActionListener(e -> {
             app.tabbedPanel.addGroup("New Group", true);
@@ -45,6 +44,7 @@ public class ControlPanel extends JPanel {
             addSnippet.setVisible(true);
             deleteGroup.setVisible(true);
             searchBar.setVisible(true);
+            redrawEverything();
         });
 
         deleteGroup = getButton("Delete Group", new Color(148, 24, 24));
@@ -53,7 +53,7 @@ public class ControlPanel extends JPanel {
             addSnippet.setVisible(!app.tabbedPanel.groups.isEmpty());
             deleteGroup.setVisible(!app.tabbedPanel.groups.isEmpty());
             searchBar.setVisible(!app.tabbedPanel.groups.isEmpty());
-            app.revalidate();
+            redrawEverything();
         });
 
         addSnippet = getButton("New Snippet");
@@ -84,6 +84,17 @@ public class ControlPanel extends JPanel {
         button.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
         button.setBackground(color);
         return button;
+    }
+
+    private void redrawEverything() {
+        SwingUtilities.invokeLater(() -> {
+            for (Window window : Window.getWindows()) {
+                SwingUtilities.updateComponentTreeUI(window);
+                window.invalidate();
+                window.validate();
+                window.repaint();
+            }
+        });
     }
 
 }

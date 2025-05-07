@@ -15,7 +15,6 @@ public class HighlightSubmenu extends JMenu implements MenuClickHandler {
 
     public HighlightSubmenu() {
         super("Highlight");
-        String selected = SettingsManager.get().highlight;
         this.add(new ClickableItem("Eclipse", this));
         this.add(new ClickableItem("Idea", this));
         this.add(new ClickableItem("VS", this));

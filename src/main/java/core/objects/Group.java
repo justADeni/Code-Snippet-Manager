@@ -49,17 +49,11 @@ public class Group extends JPanel {
 
         snippets = new ArrayList<>();
 
-        scrollPane = new JScrollPane(this);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane = new SmoothScrollPane(this);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(8);
         scrollPane.getVerticalScrollBar().setValue(0);
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.addMouseWheelListener(e -> {
-            double preciseRotation = e.getPreciseWheelRotation(); // Use precise scrolling
-            JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-            int newValue = verticalBar.getValue() + (int) (preciseRotation * verticalBar.getUnitIncrement(1));
-            verticalBar.setValue(newValue);
-        });
 
         searchBar = new JTextField();
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));

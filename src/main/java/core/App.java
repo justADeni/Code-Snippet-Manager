@@ -62,6 +62,7 @@ public class App extends JFrame {
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         SettingsManager.load();
         UIManager.setLookAndFeel(GeneralTheme.get());
+        UIManager.put("List.lockToPositionOnScroll", Boolean.FALSE);
 
         SwingUtilities.invokeLater(() -> {
             App app = new App();
