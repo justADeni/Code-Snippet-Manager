@@ -3,7 +3,7 @@ package core.highlight;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Detector {
+public class LanguageDetector {
 
     private static final Pattern pattern = Pattern.compile("[^.]+$");
 

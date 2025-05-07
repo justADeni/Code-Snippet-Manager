@@ -2,7 +2,7 @@ package core.objects;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
-import core.highlight.Detector;
+import core.highlight.LanguageDetector;
 import core.highlight.HighlightTheme;
 import core.highlight.ThemedSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -26,7 +26,7 @@ public class Snippet extends JPanel {
     private final Dimension rolledSize = new Dimension(400, 200);
     private final LineCounter lineCounter;
 
-    private final Detector detector = new Detector();
+    private final LanguageDetector languageDetector = new LanguageDetector();
 
     public Snippet(Group group, String snippetName, String snippetCode, boolean newlyCreated) {
         this.group = group;
@@ -50,7 +50,7 @@ public class Snippet extends JPanel {
                 } else if (group.snippets.stream().anyMatch(s -> s != snippet && s.getName().equalsIgnoreCase(newText))) {
                     return new LabelEditResult.Error("Duplicate name", "Two snippet names cannot be identical");
                 } else {
-                    snippetTextArea.setSyntaxEditingStyle(detector.get(newText));
+                    snippetTextArea.setSyntaxEditingStyle(languageDetector.get(newText));
                     return new LabelEditResult.Success();
                 }
             }
@@ -94,7 +94,7 @@ public class Snippet extends JPanel {
         snippetTextArea = new ThemedSyntaxTextArea(snippetCode);
         snippetTextArea.setEditable(false);
         snippetTextArea.setAutoIndentEnabled(true);
-        snippetTextArea.setSyntaxEditingStyle(detector.get(getName()));
+        snippetTextArea.setSyntaxEditingStyle(languageDetector.get(getName()));
         snippetTextArea.setPreferredSize(rolledSize);
         HighlightTheme.get().apply(snippetTextArea);
         snippetTextArea.getDocument().addDocumentListener(new SimpleDocumentListener() {
