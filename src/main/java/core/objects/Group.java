@@ -38,7 +38,7 @@ public class Group extends JPanel {
         };
         nameLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 groupsTabbedPanel.setSelectedComponent(scrollPane);
             }
         });

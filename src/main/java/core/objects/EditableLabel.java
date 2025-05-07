@@ -7,6 +7,8 @@ import java.util.TimerTask;
 
 public abstract class EditableLabel extends JPanel {
 
+    private static final float FONT_SIZE = 20f;
+
     private final JLabel label;
     private final JTextField textField;
 
@@ -47,12 +49,28 @@ public abstract class EditableLabel extends JPanel {
         gbc.ipadx = ipadx;
         gbc.insets = new Insets(0, 0, 0, rightInset);
 
-        label = new JLabel(text);
+        Font font = UIManager.getFont("TextField.font").deriveFont(FONT_SIZE);
+
+        label = new JLabel(text) {
+            @Override
+            public void updateUI() {
+                super.updateUI();
+                setFont(font);
+            }
+        };
         label.setOpaque(true);
         label.setBackground(new Color(0, 0, 0, 0));
+        label.setFont(font);
 
-        textField = new JTextField();
+        textField = new JTextField() {
+            @Override
+            public void updateUI() {
+                super.updateUI();
+                setFont(font);
+            }
+        };
         textField.setVisible(false);
+        textField.setFont(font);
 
         add(label, gbc);
         add(textField, gbc);
