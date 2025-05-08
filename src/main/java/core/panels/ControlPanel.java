@@ -4,23 +4,18 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import core.App;
 import core.objects.Group;
-import core.objects.Snippet;
+import core.objects.SimpleDocumentListener;
+import core.utils.DefaultNewName;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class ControlPanel extends JPanel {
 
     private final App app;
 
-    private JButton newGroup, addSnippet;
+    private JButton newGroup, deleteGroup, addSnippet;
     private JTextField searchBar;
-    private String searchString = "";
 
     public ControlPanel(App app) {
         this.app = app;
@@ -28,99 +23,81 @@ public class ControlPanel extends JPanel {
     }
 
     public void init() {
-        newGroup = getButton("New group");
-        newGroup.addActionListener(e -> {
-            String groupName = JOptionPane.showInputDialog("Enter group name", "Group");
-
-            if (groupName.isBlank()) return;
-
-            for (Group group : app.tabbedPanel.groups) {
-                if (groupName.equals(group.groupName)) {
-                    JOptionPane.showMessageDialog(null, "Group name is already taken",
-                            "Name in use", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            app.tabbedPanel.addGroup(groupName);
-        });
-
-        addSnippet = getButton("Add snippet");
-        addSnippet.addActionListener(e -> {
-            Group selectedGroup = app.tabbedPanel.getSelectedGroup();
-
-            if (selectedGroup == null || app.tabbedPanel.groups.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "You must create a group before creating a snippet");
-                return;
-            }
-
-            String name = JOptionPane.showInputDialog("Snippet Name");
-
-            if (name.isBlank()) return;
-
-
-            for (Snippet snippet : selectedGroup.snippets) {
-                if (name.equals(snippet.snippetName)) {
-                    JOptionPane.showMessageDialog(null, "Snippet name is already taken",
-                            "Name in use", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-
-            selectedGroup.addSnippet(name);
-        });
-
         searchBar = new JTextField();
         searchBar.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
         searchBar.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search....");
         searchBar.putClientProperty(FlatClientProperties.STYLE, "arc : 10");
         searchBar.setPreferredSize(new Dimension(200, 30));
-
-        searchBar.addKeyListener(new KeyAdapter() {
+        searchBar.getDocument().addDocumentListener(new SimpleDocumentListener() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyTyped(e);
+            public void updateText() {
                 Group selectedGroup = app.tabbedPanel.getSelectedGroup();
-
-                searchString = searchBar.getText();
-
-                for (Snippet snippet : selectedGroup.snippets) {
-
-                    if (searchString.toLowerCase().equals(snippet.snippetName.toLowerCase())) {
-                        System.out.println(snippet.snippetName + " found!");
-
-                        snippet.highlight();
-
-                        int y = snippet.getY();
-                        selectedGroup.scrollPane.getVerticalScrollBar().setValue(y - 50);
-                        System.out.println(y);
-
-
-
-                    } else {
-                        snippet.restore();
-                    }
-                }
-
-
-
+                selectedGroup.snippets.forEach(snippet -> snippet.setVisible(
+                        searchBar.getText().isBlank() ||
+                                snippet.getName().contains(searchBar.getText())
+                ));
             }
         });
+        newGroup = getButton("New Group");
+        newGroup.addActionListener(e -> {
+            String newName = DefaultNewName.get("New Group", s -> app.tabbedPanel.groups.stream().noneMatch(n -> n.getName().equals(s)));
+            app.tabbedPanel.addGroup(newName, true);
+            app.tabbedPanel.setSelectedIndex(app.tabbedPanel.getTabCount()-1);
+            addSnippet.setVisible(true);
+            deleteGroup.setVisible(true);
+            searchBar.setVisible(true);
+            redrawEverything();
+        });
+
+        deleteGroup = getButton("Delete Group", new Color(148, 24, 24));
+        deleteGroup.addActionListener(e -> {
+            app.tabbedPanel.getSelectedGroup().deleteGroup();
+            addSnippet.setVisible(!app.tabbedPanel.groups.isEmpty());
+            deleteGroup.setVisible(!app.tabbedPanel.groups.isEmpty());
+            searchBar.setVisible(!app.tabbedPanel.groups.isEmpty());
+            redrawEverything();
+        });
+
+        addSnippet = getButton("New Snippet");
+        addSnippet.addActionListener(e -> {
+            Group selectedGroup = app.tabbedPanel.getSelectedGroup();
+            String newName = DefaultNewName.get("New Snippet", s -> selectedGroup.snippets.stream().noneMatch(n -> n.getName().equals(s)));
+            selectedGroup.addSnippet(newName, "", true);
+        });
+        addSnippet.setVisible(!app.tabbedPanel.groups.isEmpty());
+        deleteGroup.setVisible(!app.tabbedPanel.groups.isEmpty());
+        searchBar.setVisible(!app.tabbedPanel.groups.isEmpty());
     }
 
     public void addComponent() {
         this.add(searchBar);
         this.add(newGroup);
+        this.add(deleteGroup);
         this.add(addSnippet);
-
 
         app.add(this, BorderLayout.NORTH);
     }
 
     private JButton getButton(String text) {
+        return getButton(text, new Color(46, 97, 234));
+    }
+
+    private JButton getButton(String text, Color color) {
         JButton button = new JButton(text);
         button.setFont(new Font(FlatInterFont.FAMILY, Font.PLAIN, 16));
-        button.setBackground(new Color(46, 97, 234));
+        button.setBackground(color);
         return button;
+    }
+
+    private void redrawEverything() {
+        SwingUtilities.invokeLater(() -> {
+            for (Window window : Window.getWindows()) {
+                SwingUtilities.updateComponentTreeUI(window);
+                window.invalidate();
+                window.validate();
+                window.repaint();
+            }
+        });
     }
 
 }

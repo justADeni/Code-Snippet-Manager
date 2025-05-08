@@ -1,32 +1,142 @@
 # Code Snippet Manager
-![Screenshot 2025-04-29 175232](https://github.com/user-attachments/assets/85727d7c-02ea-4211-b988-7b9fe14a84b6)
+![Snippets Screenshot](/screenshots/snippets.png)
+
+<details>
+  <summary style="font-size: 22px;">More screenshots</summary>
+
+![Blank Screenshot](/screenshots/blank.png)
+![New Group Screenshot](/screenshots/newgroup.png)
+![Editing Screenshot](/screenshots/editing.png)
+![Renaming Screenshot](/screenshots/renaming.png)
+![Light Theme Screenshot](/screenshots/light.png)
+</details>
+
+# ✂️ Code Snippet Manager
+
+A simple, lightweight Java tool that helps in managing code snippets.
 
 
-A simple light-weight Java tool that helps in managing code snippets
+### 🗂️ Organize snippets into **Groups**  
+### 📋 Acts as a persistent **clipboard**
+- Snippets are saved between sessions
 
-User can create seperate Groups and store snippets in desired groups. The app acts as a clipboard, and the snippets are saved between sessions.
+### 🪢 Flexibility
+- Snippets and Groups can be renamed by double-clicking their respective names
 
-# How to run Code Snippet Manager
+### 🎨 Theme Customization:  
+Both the general app theme and the snippet code area can be customized.
+  <details>
+     <summary>General Themes</summary>
+  
+  - `Arc`
+  - `Light Flat`
+  - `Light Solarized`
+  - `One Dark`
+  - `Arc Dark`
+  - `Nord`
+  - `Monokai`
+  - `Mac Dark` *(default)*
+  </details>   
 
-## Via Desktop Installer
+  <details>
+    <summary>Highlight Themes</summary>
+  
+  - `Eclipse`
+  - `Idea`
+  - `VS`
+  - `Monokai` *(default)*
+  - `Obsidian`
+  </details>
+
+
+### 🧩 Syntax Highlighting:
+  - Syntax highlighting is automatically enabled when snippet
+  suffix corresponds to a supported language, e.g. `example.java` 
+  or `react.js` or `SIMD.cpp`
+  - comes with bracket completion and pair bracket highlighting
+  - comes with autoindentation
+  
+  <details>
+        <summary>Supported languages</summary>
+
+  - `actionscript`
+  - `asm`
+  - `asm6502`
+  - `bbcode`
+  - `c`
+  - `clojure`
+  - `cpp`
+  - `cs`
+  - `css`
+  - `csv`
+  - `d`
+  - `dockerfile`
+  - `dart`
+  - `delphi`
+  - `dtd`
+  - `fortran`
+  - `golang`
+  - `groovy`
+  - `handlebars`
+  - `hosts`
+  - `htaccess`
+  - `html`
+  - `ini`
+  - `java`
+  - `javascript`
+  - `json`
+  - `jshintrc`
+  - `jsp`
+  - `kotlin`
+  - `latex`
+  - `less`
+  - `lisp`
+  - `lua`
+  - `makefile`
+  - `markdown`
+  - `mxml`
+  - `nsis`
+  - `perl`
+  - `php`
+  - `proto`
+  - `properties`
+  - `python`
+  - `ruby`
+  - `rust`
+  - `sas`
+  - `scala`
+  - `sql`
+  - `tcl`
+  - `typescript`
+  - `unix`
+  - `vb`
+  - `vhdl`
+  - `bat`
+  - `xml`
+  - `yaml`
+  - `plaintext`
+
+</details>
+
+## 🚀 How to Run
+
+### 🧾 Prerequisites
+- Java **JDK 21+** installed
+
+### 💾 Via Desktop Installer
 * Download and run the installer from the [latest release](../../releases/tag/master).
 
-## Via JAR file
-
-* Make sure you have Java installed (JDK 21+)
-* Download the CodeSnippetManager.jar file from releases
-* From a CLI, Navigate to the directory where the JAR file is installed, and enter the following command :
-*  ``` java -jar (Name of jar).jar ```
-* The program should launch successfully. 
-
-## From Sources
-
+### 🛠️ Running from Source
 Alternatively, you can also run the project via the source code.
 * Copy the project via the CLI, or by downloading the .zip file
 * extract the zip and open the project in IntelliJ IDEA
 * Navigate to CodeSnippetManager.java (which contains the main method)
 * Click on run to execute the program
 
-# Screenshots 
-![Screenshot 2025-04-29 174909](https://github.com/user-attachments/assets/204de06a-6740-45dc-ac9c-5c94ea17954b)
-![Screenshot 2025-04-29 174923](https://github.com/user-attachments/assets/d639c8d9-0a70-4a77-8496-47bb376a233d)
+### 🏗️ Building the Project
+To build the JAR file yourself:
+
+```bash
+  mvn package
+```
+After the build, you’ll find the .jar file in the `target` directory.

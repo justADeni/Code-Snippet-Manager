@@ -1,12 +1,17 @@
 package core.panels;
 
 import core.App;
+import core.objects.EditableLabel;
 import core.objects.Group;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 public class GroupsTabbedPanel extends JTabbedPane {
 
@@ -21,15 +26,13 @@ public class GroupsTabbedPanel extends JTabbedPane {
 
         this.addChangeListener(e -> {
             try {
-                int selectedIndex = this.getSelectedIndex();
-                String selectedTitle = this.getTitleAt(selectedIndex);
+                int index = this.getSelectedIndex();
+                final EditableLabel nameLabel = (EditableLabel) this.getTabComponentAt(index);
+                groups.stream()
+                        .filter(group -> group.getNameLabel().equals(nameLabel))
+                        .findFirst()
+                        .ifPresent(group -> selectedGroup = group);
 
-                for (Group group : groups) {
-                    if (selectedTitle.equals(group.groupName)) {
-                        selectedGroup = group;
-                        break;
-                    }
-                }
             } catch (IndexOutOfBoundsException ex) {
                 repaint();
                 revalidate();
@@ -45,15 +48,22 @@ public class GroupsTabbedPanel extends JTabbedPane {
         app.add(this, BorderLayout.CENTER);
     }
 
-    public void addGroup(String groupName) {
-        Group group = new Group(this, groupName);
+    public void addGroup(String groupName, boolean newlyCreated) {
+        Group group = new Group(this, groupName, newlyCreated);
+
         groups.add(group);
 
-        this.addTab(groupName, group.scrollPane);
+        this.addTab(null, group.scrollPane);
+        this.setTabComponentAt(this.indexOfComponent(group.scrollPane), group.getNameLabel());
         revalidate();
     }
 
     public Group getSelectedGroup() {
+        if (selectedGroup == null && !groups.isEmpty()) {
+            selectedGroup = groups.getFirst();
+            setSelectedComponent(selectedGroup.scrollPane);
+        }
+
         return selectedGroup;
     }
 
