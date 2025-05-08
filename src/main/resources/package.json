@@ -1,11 +1,11 @@
 {
     "bin": {"code-snippet-manager": "jdeploy-bundle/jdeploy.js"},
     "author": "Gufran Thakur",
-    "description": "A simple light-weight Java tool that helps in managing code snippets",
+    "description": "@project.description@",
     "main": "index.js",
     "preferGlobal": true,
     "repository": "",
-    "version": "1.0.0",
+    "version": "@project.version@",
     "jdeploy": {
         "jdk": false,
         "buildCommand": [
@@ -18,9 +18,9 @@
             "url": "code-snippet-manager"
         }],
         "javaVersion": "21",
-        "jar": "target/CodeSnippetManager-1.0-SNAPSHOT.jar",
+        "jar": "target/@project.artifactId@-@project.version@.jar",
         "javafx": false,
-        "title": "Code Snippet Manager"
+        "title": "@project.name@"
     },
     "dependencies": {
         "command-exists-promise": "^2.0.2",
