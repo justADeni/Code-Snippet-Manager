@@ -21,7 +21,7 @@ public class App extends JFrame {
 
     private App() {
         this.setTitle("Code Snippet Manager");
-        this.setSize(600, 400);
+        this.setSize(640, 420);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
